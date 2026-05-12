@@ -246,51 +246,22 @@
       letter-spacing: 0.5px;
       color: var(--muted);
     }
-    .plan-tax-header .th-vals { display: flex; gap: 4px; }
-    .plan-tax-header .th-vals span { min-width: 22px; text-align: center; }
+    .plan-tax-header .th-vals { display: flex; gap: 6px; }
+    .plan-tax-header .th-vals span { min-width: 26px; text-align: center; }
     .plan-tax-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 5px 0;
+      padding: 6px 0;
       border-bottom: 1px solid #dcedc8;
       font-size: 8px;
     }
     .plan-tax-row:last-child { border-bottom: none; }
     .plan-tax-label { color: var(--sub); font-weight: 500; }
-    .plan-tax-vals { display: flex; gap: 4px; }
-    .plan-tax-val { text-align: center; min-width: 22px; }
+    .plan-tax-vals { display: flex; gap: 6px; }
+    .plan-tax-val { text-align: center; min-width: 26px; }
     .plan-tax-val .tv-num { font-size: 8px; font-weight: 700; color: var(--green-dk); }
     .plan-tax-val .tv-lbl { font-size: 6.5px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.3px; display: block; }
-
-    /* DELAY TABLE */
-    .delay-table {
-      background: var(--soft);
-      border-radius: 7px;
-      padding: 8px 10px;
-      margin-bottom: 10px;
-    }
-    .delay-table-title {
-      font-size: 7px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--muted);
-      margin-bottom: 5px;
-      padding-bottom: 4px;
-      border-bottom: 1px solid var(--softbdr);
-    }
-    .delay-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 3px 0;
-      border-bottom: 1px solid #dcedc8;
-      font-size: 8px;
-    }
-    .delay-row:last-child { border-bottom: none; }
-    .delay-label { color: var(--sub); font-weight: 500; }
-    .delay-val { font-size: 8px; font-weight: 700; color: var(--green-dk); }
 
     /* PIX row */
     .plan-pix {
@@ -631,28 +602,26 @@
             <div class="plan-rate-unit">crédito</div>
           </div>
           <ul class="plan-checks">
-            <li><span class="check-icon"><svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#2e7d32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Crédito liquidado em D+30</li>
-            <li><span class="check-icon"><svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#2e7d32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Antecipação pontual disponível</li>
+            <li><span class="check-icon"><svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#2e7d32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Débito em D+1 · Crédito em D+30</li>
+            <li><span class="check-icon"><svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#2e7d32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Melhor custo-benefício</li>
           </ul>
           <div class="plan-tax-block">
             <div class="plan-tax-header">
               <span>Bandeira</span>
               <div class="th-vals">
-                <span>Déb</span>
-                <span>Créd</span>
-                <span>2-6x</span>
-                <span>7-18x</span>
-                <span>Pix</span>
+                <span>Débito</span>
+                <span>Crédito</span>
+                <span>2x6</span>
+                <span>7x18</span>
               </div>
             </div>
             <div class="plan-tax-row">
-              <span class="plan-tax-label">Master/Visa</span>
+              <span class="plan-tax-label">Master / Visa</span>
               <div class="plan-tax-vals">
                 <div class="plan-tax-val"><span class="tv-num">0,83%</span></div>
                 <div class="plan-tax-val"><span class="tv-num">1,89%</span></div>
                 <div class="plan-tax-val"><span class="tv-num">2,23%</span></div>
                 <div class="plan-tax-val"><span class="tv-num">2,52%</span></div>
-                <div class="plan-tax-val"><span class="tv-num">0,55%</span></div>
               </div>
             </div>
             <div class="plan-tax-row">
@@ -662,7 +631,6 @@
                 <div class="plan-tax-val"><span class="tv-num">2,43%</span></div>
                 <div class="plan-tax-val"><span class="tv-num">2,78%</span></div>
                 <div class="plan-tax-val"><span class="tv-num">3,25%</span></div>
-                <div class="plan-tax-val"><span class="tv-num">0,55%</span></div>
               </div>
             </div>
             <div class="plan-tax-row">
@@ -672,20 +640,23 @@
                 <div class="plan-tax-val"><span class="tv-num">2,48%</span></div>
                 <div class="plan-tax-val"><span class="tv-num">2,62%</span></div>
                 <div class="plan-tax-val"><span class="tv-num">2,76%</span></div>
-                <div class="plan-tax-val"><span class="tv-num">—</span></div>
               </div>
             </div>
           </div>
           <div class="plan-pix">
-            <span class="plan-pix-label">Antecipação D+1</span>
-            <span class="plan-pix-val">—</span>
+            <span class="plan-pix-label">PIX (D+0)</span>
+            <span class="plan-pix-val">0,55%</span>
           </div>
           <div class="plan-pix">
             <span class="plan-pix-label">Antecipação Pontual</span>
-            <span class="plan-pix-val">1,85% a.m.</span>
+            <span class="plan-pix-val">1,85% a.m</span>
           </div>
           <div class="plan-pix">
-            <span class="plan-pix-label">Domicílio bancário</span>
+            <span class="plan-pix-label">Conta PJ Stone</span>
+            <span class="plan-pix-val">Grátis</span>
+          </div>
+          <div class="plan-pix">
+            <span class="plan-pix-label">Domicílio de recebimento das vendas</span>
             <span class="plan-pix-val">Livre</span>
           </div>
           <div class="plan-equip">
@@ -707,7 +678,7 @@
         <div class="plan-top-bar"></div>
         <div class="plan-body">
           <div class="plan-name">Plano Antecipado</div>
-          <div class="plan-desc">Pacote D+1 — taxas reduzidas, receba rápido</div>
+          <div class="plan-desc">Receba tudo no próximo dia útil</div>
           <div class="plan-rates-row">
             <div class="plan-rate-main">
               <div class="plan-rate-num">0,75%</div>
@@ -723,28 +694,26 @@
             <div class="plan-rate-unit">crédito</div>
           </div>
           <ul class="plan-checks">
-            <li><span class="check-icon"><svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#2e7d32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Débito e crédito em D+1</li>
-            <li><span class="check-icon"><svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#2e7d32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Ideal para quem precisa de caixa rápido</li>
+            <li><span class="check-icon"><svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#2e7d32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Débito em D+1 · Crédito em D+1</li>
+            <li><span class="check-icon"><svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#2e7d32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Para quem precisa de fluxo de caixa rápido</li>
           </ul>
           <div class="plan-tax-block">
             <div class="plan-tax-header">
               <span>Bandeira</span>
               <div class="th-vals">
-                <span>Déb</span>
-                <span>Créd</span>
-                <span>2-6x</span>
-                <span>7-18x</span>
-                <span>Pix</span>
+                <span>Débito</span>
+                <span>Crédito</span>
+                <span>2x6</span>
+                <span>7x18</span>
               </div>
             </div>
             <div class="plan-tax-row">
-              <span class="plan-tax-label">Master/Visa</span>
+              <span class="plan-tax-label">Master / Visa</span>
               <div class="plan-tax-vals">
                 <div class="plan-tax-val"><span class="tv-num">0,75%</span></div>
                 <div class="plan-tax-val"><span class="tv-num">1,65%</span></div>
                 <div class="plan-tax-val"><span class="tv-num">1,85%</span></div>
                 <div class="plan-tax-val"><span class="tv-num">1,99%</span></div>
-                <div class="plan-tax-val"><span class="tv-num">0,55%</span></div>
               </div>
             </div>
             <div class="plan-tax-row">
@@ -754,7 +723,6 @@
                 <div class="plan-tax-val"><span class="tv-num">2,24%</span></div>
                 <div class="plan-tax-val"><span class="tv-num">2,59%</span></div>
                 <div class="plan-tax-val"><span class="tv-num">3,06%</span></div>
-                <div class="plan-tax-val"><span class="tv-num">0,55%</span></div>
               </div>
             </div>
             <div class="plan-tax-row">
@@ -764,20 +732,23 @@
                 <div class="plan-tax-val"><span class="tv-num">2,26%</span></div>
                 <div class="plan-tax-val"><span class="tv-num">2,40%</span></div>
                 <div class="plan-tax-val"><span class="tv-num">2,54%</span></div>
-                <div class="plan-tax-val"><span class="tv-num">—</span></div>
               </div>
             </div>
           </div>
           <div class="plan-pix">
-            <span class="plan-pix-label">Antecipação D+1</span>
-            <span class="plan-pix-val">1,40% a.m.</span>
+            <span class="plan-pix-label">PIX (D+0)</span>
+            <span class="plan-pix-val">0,55%</span>
           </div>
           <div class="plan-pix">
-            <span class="plan-pix-label">Antecipação Pontual</span>
-            <span class="plan-pix-val">—</span>
+            <span class="plan-pix-label">Antecipação Automática</span>
+            <span class="plan-pix-val">1,40% a.m</span>
           </div>
           <div class="plan-pix">
-            <span class="plan-pix-label">Domicílio bancário</span>
+            <span class="plan-pix-label">Conta PJ Stone</span>
+            <span class="plan-pix-val">Grátis</span>
+          </div>
+          <div class="plan-pix">
+            <span class="plan-pix-label">Domicílio de recebimento das vendas</span>
             <span class="plan-pix-val">Livre</span>
           </div>
           <div class="plan-equip">
@@ -798,8 +769,8 @@
         <div class="plan-badge-top" style="background:#4338ca;">MENOR TAXA</div>
         <div class="plan-top-bar"></div>
         <div class="plan-body">
-          <div class="plan-name">Taxas Inteligentes</div>
-          <div class="plan-desc">Taxa base D+30 com desconto por prazo de recebimento</div>
+          <div class="plan-name">Plano Taxas Inteligentes</div>
+          <div class="plan-desc">Taxas Inteligentes — recebimento programado</div>
           <div class="plan-rates-row">
             <div class="plan-rate-main">
               <div class="plan-rate-num">0,83%</div>
@@ -815,28 +786,26 @@
             <div class="plan-rate-unit">crédito</div>
           </div>
           <ul class="plan-checks">
-            <li><span class="check-icon"><svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#2e7d32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Defina seu prazo e ganhe desconto no MDR</li>
-            <li><span class="check-icon"><svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#2e7d32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Ideal para quem planeja o fluxo de caixa</li>
+            <li><span class="check-icon"><svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#2e7d32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Menores taxas da rede</li>
+            <li><span class="check-icon"><svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#2e7d32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Ideal para quem não precisa antecipar</li>
           </ul>
           <div class="plan-tax-block">
             <div class="plan-tax-header">
               <span>Bandeira</span>
               <div class="th-vals">
-                <span>Déb</span>
-                <span>Créd</span>
-                <span>2-6x</span>
-                <span>7-18x</span>
-                <span>Pix</span>
+                <span>Débito</span>
+                <span>Crédito</span>
+                <span>2x6</span>
+                <span>7x18</span>
               </div>
             </div>
             <div class="plan-tax-row">
-              <span class="plan-tax-label">Master/Visa</span>
+              <span class="plan-tax-label">Master / Visa</span>
               <div class="plan-tax-vals">
                 <div class="plan-tax-val"><span class="tv-num">0,83%</span></div>
                 <div class="plan-tax-val"><span class="tv-num">1,89%</span></div>
                 <div class="plan-tax-val"><span class="tv-num">2,23%</span></div>
                 <div class="plan-tax-val"><span class="tv-num">2,52%</span></div>
-                <div class="plan-tax-val"><span class="tv-num">0,55%</span></div>
               </div>
             </div>
             <div class="plan-tax-row">
@@ -846,7 +815,6 @@
                 <div class="plan-tax-val"><span class="tv-num">2,43%</span></div>
                 <div class="plan-tax-val"><span class="tv-num">2,78%</span></div>
                 <div class="plan-tax-val"><span class="tv-num">3,25%</span></div>
-                <div class="plan-tax-val"><span class="tv-num">0,55%</span></div>
               </div>
             </div>
             <div class="plan-tax-row">
@@ -856,24 +824,23 @@
                 <div class="plan-tax-val"><span class="tv-num">2,48%</span></div>
                 <div class="plan-tax-val"><span class="tv-num">2,62%</span></div>
                 <div class="plan-tax-val"><span class="tv-num">2,76%</span></div>
-                <div class="plan-tax-val"><span class="tv-num">—</span></div>
               </div>
             </div>
           </div>
-          <div class="delay-table">
-            <div class="delay-table-title">Desconto por prazo de recebimento (MDR)</div>
-            <div class="delay-row"><span class="delay-label">3 dias</span><span class="delay-val">-0,07%</span></div>
-            <div class="delay-row"><span class="delay-label">7 dias</span><span class="delay-val">-0,15%</span></div>
-            <div class="delay-row"><span class="delay-label">15 dias</span><span class="delay-val">-0,27%</span></div>
-            <div class="delay-row"><span class="delay-label">21 dias</span><span class="delay-val">-0,35%</span></div>
-            <div class="delay-row"><span class="delay-label">30 dias</span><span class="delay-val">-0,60%</span></div>
+          <div class="plan-pix">
+            <span class="plan-pix-label">PIX (D+0)</span>
+            <span class="plan-pix-val">0,55%</span>
           </div>
           <div class="plan-pix">
             <span class="plan-pix-label">Antecipação Pontual</span>
-            <span class="plan-pix-val">1,85% a.m.</span>
+            <span class="plan-pix-val">1,85% a.m</span>
           </div>
           <div class="plan-pix">
-            <span class="plan-pix-label">Domicílio bancário</span>
+            <span class="plan-pix-label">Conta PJ Stone</span>
+            <span class="plan-pix-val">Grátis</span>
+          </div>
+          <div class="plan-pix">
+            <span class="plan-pix-label">Domicílio de recebimento das vendas</span>
             <span class="plan-pix-val">Livre</span>
           </div>
           <div class="plan-equip">
@@ -886,6 +853,9 @@
               <span class="plan-equip-label">por Pinpad (TEF)</span>
             </div>
           </div>
+          <p style="font-size:7px;color:var(--muted);line-height:1.5;margin-top:8px;padding-top:8px;border-top:1px dashed #c8e6c9;">
+            Este plano está disponível nos prazos de 3, 7, 15, 21 e 30 dias com descontos no MDR de 0,07% a 0,60%. Para simular, acesse o Simulador de Taxas &gt; Taxas Inteligentes.
+          </p>
         </div>
       </div>
 
