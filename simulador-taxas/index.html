@@ -235,10 +235,11 @@
     .plano-taxa-row {
       display: flex;
       justify-content: space-between;
+      align-items: baseline;
       font-size: 11px;
     }
-    .plano-taxa-row span:first-child { color: var(--muted); }
-    .plano-taxa-row span:last-child { font-weight: 700; color: var(--stone-dk); }
+    .plano-taxa-row span:first-child { color: var(--muted); flex: 1; }
+    .plano-taxa-row span:last-child { font-weight: 700; color: var(--stone-dk); text-align: right; min-width: 48px; }
     .plano-check {
       position: absolute;
       top: 10px;
@@ -641,8 +642,8 @@
         <div class="plano-card-taxas">
           <div class="plano-taxa-row"><span>Débito</span><span>0,83%</span></div>
           <div class="plano-taxa-row"><span>Crédito</span><span>1,89%</span></div>
-          <div class="plano-taxa-row"><span>Crédito 2x6</span><span>2,23%</span></div>
-          <div class="plano-taxa-row"><span>Crédito 7x18</span><span>2,52%</span></div>
+          <div class="plano-taxa-row"><span>2x6</span><span>2,23%</span></div>
+          <div class="plano-taxa-row"><span>7x18</span><span>2,52%</span></div>
           <div class="plano-taxa-row"><span>PIX</span><span>0,55%</span></div>
         </div>
       </div>
@@ -654,10 +655,9 @@
         <div class="plano-card-taxas">
           <div class="plano-taxa-row"><span>Débito</span><span>0,75%</span></div>
           <div class="plano-taxa-row"><span>Crédito</span><span>1,65%</span></div>
-          <div class="plano-taxa-row"><span>Crédito 2x6</span><span>1,85%</span></div>
-          <div class="plano-taxa-row"><span>Crédito 7x18</span><span>1,99%</span></div>
+          <div class="plano-taxa-row"><span>2x6</span><span>1,85%</span></div>
+          <div class="plano-taxa-row"><span>7x18</span><span>1,99%</span></div>
           <div class="plano-taxa-row"><span>PIX</span><span>0,55%</span></div>
-          <div class="plano-taxa-row"><span>Antecipação Automática</span><span>1,40% a.m</span></div>
         </div>
       </div>
       <div class="plano-card" id="card-taxas-inteligentes" onclick="selecionarPlano('PLANO_TAXAS_INTELIGENTES')">
@@ -669,8 +669,8 @@
         <div class="plano-card-taxas">
           <div class="plano-taxa-row"><span>Débito</span><span id="ti-rate-debito">—</span></div>
           <div class="plano-taxa-row"><span>Crédito</span><span id="ti-rate-credito">—</span></div>
-          <div class="plano-taxa-row"><span>Crédito 2x6</span><span id="ti-rate-parc2x6">—</span></div>
-          <div class="plano-taxa-row"><span>Crédito 7x18</span><span id="ti-rate-parc7x12">—</span></div>
+          <div class="plano-taxa-row"><span>2x6</span><span id="ti-rate-parc2x6">—</span></div>
+          <div class="plano-taxa-row"><span>7x18</span><span id="ti-rate-parc7x12">—</span></div>
           <div class="plano-taxa-row"><span>PIX</span><span id="ti-rate-pix">—</span></div>
         </div>
       </div>
