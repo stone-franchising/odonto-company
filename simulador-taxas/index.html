@@ -1,0 +1,1175 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulador de Taxas — Stone x Bibi Calçados</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --stone:    #EC660D;
+      --stone-dk: #c04e00;
+      --brand:    #1a1a1a;
+      --soft:     #fff7f2;
+      --softbdr:  #f5c9a0;
+      --text:     #1a1a1a;
+      --sub:      #3d200a;
+      --muted:    #a07850;
+      --border:   #f5c9a0;
+      --white:    #ffffff;
+      --red:      #ef4444;
+      --radius:   10px;
+      --font:     'Inter', -apple-system, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font);
+      background: var(--white);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0;
+    }
+
+    /* HEADER */
+    .header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 0;
+      background: var(--white);
+      border-radius: 0;
+      box-shadow: none;
+      border-bottom: 1px solid var(--softbdr);
+      padding: 16px 24px 14px;
+      width: 100%;
+      max-width: 100%;
+    }
+    .header-logos {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .header-logo {
+      height: 28px;
+      width: auto;
+    }
+    .header-logo-stone {
+      height: 36px;
+      width: auto;
+    }
+    .header-sep {
+      width: 1px;
+      height: 44px;
+      background: var(--border);
+    }
+    .header-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+    }
+
+    /* STEPS */
+    .steps {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 0;
+      width: 100%;
+      max-width: 480px;
+    }
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      gap: 8px;
+    }
+    .step-dot {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--white);
+      border: 2px solid var(--border);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.25s;
+    }
+    .step.active .step-dot {
+      background: var(--stone);
+      border-color: var(--stone);
+      color: var(--white);
+      box-shadow: 0 0 0 4px rgba(236,102,13,0.15);
+    }
+    .step.done .step-dot {
+      background: var(--stone-dk);
+      border-color: var(--stone-dk);
+      color: var(--white);
+    }
+    .step-label {
+      font-size: 9px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .step.active .step-label {
+      color: var(--stone);
+      font-weight: 800;
+    }
+    .step.done .step-label { color: var(--stone-dk); }
+    .step-line {
+      flex: 1;
+      height: 2px;
+      background: var(--border);
+      margin-bottom: 20px;
+      transition: background 0.25s;
+    }
+    .step-line.done { background: linear-gradient(to right, var(--stone-dk), var(--stone)); }
+
+    /* CARD */
+    .card {
+      background: var(--white);
+      border-radius: 0;
+      box-shadow: none;
+      padding: 20px 24px;
+      width: 100%;
+      max-width: 100%;
+    }
+    .card-title {
+      font-size: 16px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+    .card-sub {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    /* FORM */
+    .form-group {
+      margin-bottom: 12px;
+    }
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    input:focus { border-color: var(--stone); }
+    input.readonly-field {
+      background: var(--soft);
+      color: var(--stone-dk);
+      font-weight: 700;
+      cursor: default;
+    }
+
+    /* PLANOS */
+    .planos-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 560px) {
+      .planos-grid { grid-template-columns: 1fr; }
+    }
+    .plano-card {
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      cursor: pointer;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      position: relative;
+    }
+    .plano-card:hover { border-color: var(--stone); }
+    .plano-card.selected {
+      border-color: var(--stone);
+      box-shadow: 0 0 0 1px var(--stone);
+      background: var(--soft);
+    }
+    .plano-card-name {
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+    .plano-card-desc {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+    .plano-card-taxas {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .plano-taxa-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+    }
+    .plano-taxa-row span:first-child { color: var(--muted); }
+    .plano-taxa-row span:last-child { font-weight: 700; color: var(--stone-dk); }
+    .plano-check {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--stone);
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    .plano-card.selected .plano-check { display: flex; }
+    .plano-check svg { width: 10px; height: 10px; fill: white; }
+
+    /* TAXAS INTELIGENTES CONFIG */
+    .ti-config {
+      margin-bottom: 16px;
+      background: var(--soft);
+      border: 1.5px solid var(--softbdr);
+      border-radius: var(--radius);
+      padding: 16px;
+    }
+    .ti-config-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .ti-btns {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    .ti-btns:last-child { margin-bottom: 0; }
+    .ti-btn {
+      padding: 7px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      background: var(--white);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .ti-btn:hover { border-color: var(--stone); color: var(--stone); }
+    .ti-btn.selected { background: var(--stone); border-color: var(--stone); color: var(--white); }
+
+    /* TABELA DE TAXAS */
+    .taxas-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 24px;
+    }
+    .taxas-table th {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--muted);
+      padding: 0 8px 10px;
+      text-align: left;
+    }
+    .taxas-table th:not(:first-child) { text-align: center; }
+    .taxas-table td {
+      padding: 8px;
+      vertical-align: middle;
+    }
+    .taxas-table tr + tr td { border-top: 1px solid #f3f4f6; }
+    .modalidade-label {
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .taxa-stone-display {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--stone-dk);
+      background: var(--soft);
+      border-radius: 6px;
+      padding: 8px 6px;
+    }
+    .taxa-input-wrap {
+      position: relative;
+    }
+    .taxa-input-wrap input {
+      text-align: center;
+      padding-right: 20px;
+    }
+    .taxa-input-wrap::after {
+      content: '%';
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 12px;
+      color: var(--muted);
+      pointer-events: none;
+    }
+    .faturamento-input-wrap {
+      position: relative;
+    }
+    .faturamento-input-wrap::before {
+      content: 'R$';
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 12px;
+      color: var(--muted);
+      pointer-events: none;
+    }
+    .faturamento-input-wrap input {
+      padding-left: 32px;
+    }
+
+    /* RESULTADO */
+    .resultado-hero {
+      background: var(--stone);
+      border-radius: var(--radius);
+      padding: 16px;
+      color: var(--white);
+      text-align: center;
+      margin-bottom: 14px;
+    }
+    .resultado-hero-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.8;
+      margin-bottom: 6px;
+    }
+    .resultado-hero-valor {
+      font-size: 36px;
+      font-weight: 900;
+      margin-bottom: 2px;
+    }
+    .resultado-hero-sub {
+      font-size: 12px;
+      opacity: 0.75;
+    }
+    .resultado-anual {
+      background: var(--soft);
+      border-radius: 8px;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    .resultado-anual span:first-child {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .resultado-anual span:last-child {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--stone-dk);
+    }
+
+    .resumo-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 24px;
+      font-size: 12px;
+    }
+    .resumo-table th {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--muted);
+      padding: 0 8px 10px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .resumo-table th:not(:first-child) { text-align: right; }
+    .resumo-table td {
+      padding: 10px 8px;
+      vertical-align: middle;
+    }
+    .resumo-table tr + tr td { border-top: 1px solid #f3f4f6; }
+    .resumo-table td:not(:first-child) { text-align: right; }
+    .resumo-table .economia-cell {
+      color: var(--stone-dk);
+      font-weight: 700;
+    }
+    .resumo-plano-badge {
+      display: inline-block;
+      background: var(--soft);
+      color: var(--stone-dk);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+
+    /* BOTOES */
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+    .btn-primary {
+      background: var(--stone);
+      color: var(--white);
+      border: none;
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .btn-primary:hover { background: var(--stone-dk); transform: scale(1.02); }
+    .btn-secondary {
+      background: transparent;
+      color: var(--muted);
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: border-color 0.15s;
+    }
+    .btn-secondary:hover { border-color: var(--stone); color: var(--stone); }
+    .btn-nova {
+      background: var(--stone);
+      color: var(--white);
+      border: none;
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 8px;
+      transition: background 0.15s;
+    }
+    .btn-nova:hover { background: var(--stone-dk); }
+
+    /* ERRO */
+    .error-msg {
+      color: var(--red);
+      font-size: 12px;
+      margin-top: 6px;
+      display: none;
+    }
+    .error-msg.visible { display: block; }
+
+    /* MODAL */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: none; align-items: center; justify-content: center;
+      z-index: 1000; padding: 16px;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-box {
+      background: #fff; border-radius: 16px; padding: 28px;
+      width: 100%; max-width: 420px; position: relative;
+    }
+    .modal-close {
+      position: absolute; top: 12px; right: 12px;
+      background: var(--soft); border: none; width: 28px; height: 28px;
+      border-radius: 50%; cursor: pointer; font-size: 14px; color: var(--sub);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .modal-box h2 { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
+    .modal-sub { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
+    .modal-box .form-group { margin-bottom: 14px; }
+    .modal-box label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); margin-bottom: 6px; }
+    .modal-box input[type="text"],
+    .modal-box input[type="tel"],
+    .modal-box select {
+      width: 100%; padding: 11px 14px; border: 1.5px solid var(--border);
+      border-radius: 8px; font-size: 14px; color: var(--text); outline: none;
+      transition: border-color 0.15s; background: #fff;
+    }
+    .modal-box input:focus, .modal-box select:focus { border-color: var(--stone); }
+    .btn-submit {
+      background: var(--stone); color: #fff; border: none; border-radius: 8px;
+      padding: 13px; font-size: 14px; font-weight: 700; cursor: pointer;
+      width: 100%; margin-top: 4px; transition: background 0.15s;
+    }
+    .btn-submit:hover { background: var(--stone-dk); }
+
+    /* BOTÃO QUERO SER STONE */
+    .btn-quero-stone {
+      background: #00a868; color: #fff; border: none; border-radius: 8px;
+      padding: 12px 24px; font-size: 13px; font-weight: 700;
+      cursor: pointer; transition: background 0.15s;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .btn-quero-stone:hover { background: #007a4d; }
+
+    /* BOTÕES RESULTADO */
+    .result-btns {
+      display: flex; gap: 10px; margin-top: 8px;
+    }
+    .result-btns .btn-nova { flex: 1; margin-top: 0; }
+    .result-btns .btn-quero-stone { flex: 1; }
+
+    /* CTA FLUTUANTE MOBILE */
+    .float-cta {
+      display: none;
+    }
+    @media (max-width: 600px) {
+      .float-cta {
+        display: block; position: fixed; bottom: 16px;
+        left: 16px; right: 16px; z-index: 500;
+        background: #00a868; color: #fff; border: none;
+        border-radius: 10px; padding: 14px; font-size: 14px;
+        font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+        cursor: pointer; box-shadow: 0 4px 16px rgba(0,168,104,0.35);
+        transition: opacity 0.25s, transform 0.25s;
+      }
+      .float-cta.oculto { opacity: 0; pointer-events: none; transform: translateY(20px); }
+    }
+
+    /* RESPONSIVO */
+    @media (max-width: 480px) {
+      .card { padding: 20px 16px; }
+      .planos-grid { grid-template-columns: 1fr; }
+      .taxas-table th, .taxas-table td { padding: 6px 4px; }
+      .btn-row { flex-direction: column-reverse; }
+      .btn-primary, .btn-secondary { width: 100%; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="header-logos">
+      <img src="data:image/png;base64,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" alt="Bibi Calçados" class="header-logo">
+      <div class="header-sep"></div>
+      <img src="data:image/png;base64,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" alt="Stone" class="header-logo-stone" style="mix-blend-mode:multiply;">
+    </div>
+    <div class="header-title">Simulador de Taxas</div>
+
+    <div style="width:100%; height:1px; background:var(--softbdr); margin:4px 0;"></div>
+
+    <!-- STEPS -->
+    <div class="steps" style="margin-bottom:0;">
+      <div class="step active" id="step-2">
+        <div class="step-dot">1</div>
+        <div class="step-label">Plano</div>
+      </div>
+      <div class="step-line" id="line-2"></div>
+      <div class="step" id="step-3">
+        <div class="step-dot">2</div>
+        <div class="step-label">Taxas Atuais</div>
+      </div>
+      <div class="step-line" id="line-3"></div>
+      <div class="step" id="step-4">
+        <div class="step-dot">3</div>
+        <div class="step-label">Resultado</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PASSO 2: PLANO -->
+  <div class="card" id="passo-2">
+    <div class="card-title">Qual é o seu faturamento mensal?</div>
+    <div class="card-sub">Informe o faturamento aproximado por modalidade de pagamento.</div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:28px;">
+      <div class="form-group" style="margin-bottom:0">
+        <label>Cartão</label>
+        <div class="faturamento-input-wrap">
+          <input type="text" id="fat-cartao" placeholder="0" inputmode="numeric" oninput="formatarMilhares(this)">
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label>PIX</label>
+        <div class="faturamento-input-wrap">
+          <input type="text" id="fat-pix-total" placeholder="0" inputmode="numeric" oninput="formatarMilhares(this)">
+        </div>
+      </div>
+    </div>
+
+    <div class="card-title" style="font-size:15px; margin-bottom:6px;">Escolha o plano Stone</div>
+    <div class="card-sub">As taxas são preenchidas automaticamente conforme o plano selecionado.</div>
+    <div class="planos-grid">
+      <div class="plano-card" id="card-padrao" onclick="selecionarPlano('PLANO_PADRAO')">
+        <div class="plano-check">
+          <svg viewBox="0 0 12 10"><polyline points="1,5 4.5,8.5 11,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="plano-card-name">Plano Padrão</div>
+        <div class="plano-card-taxas">
+          <div class="plano-taxa-row"><span>Débito</span><span>0,89%</span></div>
+          <div class="plano-taxa-row"><span>Crédito</span><span>1,85%</span></div>
+          <div class="plano-taxa-row"><span>Crédito 2x6</span><span>2,15%</span></div>
+          <div class="plano-taxa-row"><span>Crédito 7x12</span><span>2,78%</span></div>
+          <div class="plano-taxa-row"><span>PIX</span><span>0,50%</span></div>
+        </div>
+      </div>
+      <div class="plano-card" id="card-antecipado" onclick="selecionarPlano('PLANO_ANTECIPADO')">
+        <div class="plano-check">
+          <svg viewBox="0 0 12 10"><polyline points="1,5 4.5,8.5 11,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="plano-card-name">Plano Antecipado</div>
+        <div class="plano-card-taxas">
+          <div class="plano-taxa-row"><span>Débito</span><span>0,85%</span></div>
+          <div class="plano-taxa-row"><span>Crédito</span><span>1,48%</span></div>
+          <div class="plano-taxa-row"><span>Crédito 2x6</span><span>1,99%</span></div>
+          <div class="plano-taxa-row"><span>Crédito 7x12</span><span>2,51%</span></div>
+          <div class="plano-taxa-row"><span>PIX</span><span>0,50%</span></div>
+          <div class="plano-taxa-row"><span>Antecipação Automática</span><span>1,68% a.m</span></div>
+        </div>
+      </div>
+      <div class="plano-card" id="card-taxas-inteligentes" onclick="selecionarPlano('PLANO_TAXAS_INTELIGENTES')">
+        <div class="plano-check">
+          <svg viewBox="0 0 12 10"><polyline points="1,5 4.5,8.5 11,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="plano-card-name">Taxas Inteligentes</div>
+        <div class="plano-card-desc" style="font-size:11px; color:var(--muted); margin-bottom:8px;">Taxas reduzidas pelo prazo de recebimento</div>
+        <div class="plano-card-taxas">
+          <div class="plano-taxa-row"><span>Débito</span><span id="ti-rate-debito">—</span></div>
+          <div class="plano-taxa-row"><span>Crédito</span><span id="ti-rate-credito">—</span></div>
+          <div class="plano-taxa-row"><span>Crédito 2x6</span><span id="ti-rate-parc2x6">—</span></div>
+          <div class="plano-taxa-row"><span>Crédito 7x12</span><span id="ti-rate-parc7x12">—</span></div>
+          <div class="plano-taxa-row"><span>PIX</span><span id="ti-rate-pix">—</span></div>
+        </div>
+      </div>
+    </div>
+    <div id="ti-config" style="display:none" class="ti-config">
+      <div class="ti-config-label">Aplicar desconto em</div>
+      <div class="ti-btns">
+        <button type="button" class="ti-btn" id="ti-mod-pix"    onclick="selecionarTiMod('pix')">PIX</button>
+        <button type="button" class="ti-btn" id="ti-mod-debito" onclick="selecionarTiMod('debito')">Débito</button>
+        <button type="button" class="ti-btn" id="ti-mod-credito" onclick="selecionarTiMod('credito')">Crédito</button>
+        <button type="button" class="ti-btn" id="ti-mod-todos"  onclick="selecionarTiMod('todos')">PIX + Débito + Crédito</button>
+      </div>
+      <div class="ti-config-label">Prazo adicional de recebimento</div>
+      <div class="ti-btns">
+        <button type="button" class="ti-btn" id="ti-p3"  onclick="selecionarTiPeriodo(3)">3 dias</button>
+        <button type="button" class="ti-btn" id="ti-p7"  onclick="selecionarTiPeriodo(7)">7 dias</button>
+        <button type="button" class="ti-btn" id="ti-p15" onclick="selecionarTiPeriodo(15)">15 dias</button>
+        <button type="button" class="ti-btn" id="ti-p21" onclick="selecionarTiPeriodo(21)">21 dias</button>
+        <button type="button" class="ti-btn" id="ti-p30" onclick="selecionarTiPeriodo(30)">30 dias</button>
+      </div>
+    </div>
+    <div class="error-msg" id="erro-plano" style="display:none">Preencha o faturamento em Cartão e PIX e selecione um plano para continuar.</div>
+    <div class="btn-row">
+      <button class="btn-primary" onclick="irPasso3()">Próximo →</button>
+    </div>
+  </div>
+
+  <!-- PASSO 3: TAXAS ATUAIS -->
+  <div class="card" id="passo-3" style="display:none">
+    <div class="card-title">Informe suas condições atuais</div>
+    <div class="card-sub">Digite suas atuais taxas por modalidade. O share é calculado de acordo com a média dos últimos 7 meses dos CNPJ da Bibi Calçados.</div>
+    <table class="taxas-table">
+      <thead>
+        <tr>
+          <th>Modalidade</th>
+          <th>Taxa Stone</th>
+          <th>Taxa Atual (%)</th>
+          <th>Share por modalidade</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr id="row-debito">
+          <td><div class="modalidade-label">Débito</div></td>
+          <td><div class="taxa-stone-display" id="stone-debito">—</div></td>
+          <td><div class="taxa-input-wrap"><input type="text" id="atual-debito" placeholder="0,00" inputmode="decimal" onblur="formatarTaxa(this)"></div></td>
+          <td><div class="taxa-stone-display">14%</div></td>
+        </tr>
+        <tr id="row-credito">
+          <td><div class="modalidade-label">Crédito</div></td>
+          <td><div class="taxa-stone-display" id="stone-credito">—</div></td>
+          <td><div class="taxa-input-wrap"><input type="text" id="atual-credito" placeholder="0,00" inputmode="decimal" onblur="formatarTaxa(this)"></div></td>
+          <td><div class="taxa-stone-display">14%</div></td>
+        </tr>
+        <tr id="row-parc2x6">
+          <td><div class="modalidade-label">Parcelado 2x6</div></td>
+          <td><div class="taxa-stone-display" id="stone-parc2x6">—</div></td>
+          <td><div class="taxa-input-wrap"><input type="text" id="atual-parc2x6" placeholder="0,00" inputmode="decimal" onblur="formatarTaxa(this)"></div></td>
+          <td><div class="taxa-stone-display">64%</div></td>
+        </tr>
+        <tr id="row-parc7x12">
+          <td><div class="modalidade-label">Parcelado 7x12</div></td>
+          <td><div class="taxa-stone-display" id="stone-parc7x12">—</div></td>
+          <td><div class="taxa-input-wrap"><input type="text" id="atual-parc7x12" placeholder="0,00" inputmode="decimal" onblur="formatarTaxa(this)"></div></td>
+          <td><div class="taxa-stone-display">8%</div></td>
+        </tr>
+        <tr id="row-pix">
+          <td><div class="modalidade-label">PIX</div></td>
+          <td><div class="taxa-stone-display" id="stone-pix">—</div></td>
+          <td><div class="taxa-input-wrap"><input type="text" id="atual-pix" placeholder="0,00" inputmode="decimal" onblur="formatarTaxa(this)"></div></td>
+          <td><div class="taxa-stone-display">10%</div></td>
+        </tr>
+        <tr id="row-antecipacao" style="display:none">
+          <td><div class="modalidade-label">Taxa de Antecipação</div></td>
+          <td><div class="taxa-stone-display" id="stone-antecipacao">1,68%</div></td>
+          <td><div class="taxa-input-wrap"><input type="text" id="atual-antecipacao" placeholder="0,00" inputmode="decimal" onblur="formatarTaxa(this)"></div></td>
+          <td><div class="taxa-stone-display">—</div></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="error-msg" id="erro-taxas">Preencha pelo menos uma taxa para continuar.</div>
+    <div class="btn-row">
+      <button class="btn-secondary" onclick="irPasso(2)">← Voltar</button>
+      <button class="btn-primary" onclick="calcular()">Ver Resultado →</button>
+    </div>
+  </div>
+
+  <!-- PASSO 4: RESULTADO -->
+  <div class="card" id="passo-4" style="display:none">
+    <div class="card-title" id="resultado-titulo">Resultado</div>
+    <div class="card-sub" id="resultado-sub"></div>
+
+    <div class="resultado-hero">
+      <div class="resultado-hero-label">Economia Mensal Estimada</div>
+      <div class="resultado-hero-valor" id="economia-mensal-valor">R$ 0,00</div>
+      <div class="resultado-hero-sub">comparando suas taxas atuais com o plano Stone</div>
+    </div>
+
+    <div class="resultado-anual">
+      <span>Economia anual estimada</span>
+      <span id="economia-anual-valor">R$ 0,00</span>
+    </div>
+
+    <div class="resumo-plano-badge" id="resumo-plano-badge">—</div>
+
+    <table class="resumo-table">
+      <thead>
+        <tr>
+          <th>Modalidade</th>
+          <th>Taxa Stone</th>
+          <th>Taxa Atual</th>
+          <th>Diferença</th>
+          <th>Economia/mês</th>
+        </tr>
+      </thead>
+      <tbody id="resumo-tbody"></tbody>
+    </table>
+
+    <div class="result-btns">
+      <button class="btn-quero-stone" id="btn-quero-inline" onclick="abrirModal()">Quero ser Stone</button>
+      <button class="btn-nova" onclick="novaSim()">Nova Simulação</button>
+    </div>
+  </div>
+
+<!-- MODAL CONTATO -->
+<div class="modal-overlay" id="modal-contato">
+  <div class="modal-box">
+    <button class="modal-close" onclick="fecharModal()">&#x2715;</button>
+    <h2>Quero aderir</h2>
+    <div class="modal-sub">Falta pouco! Preencha os dados abaixo para que nosso time entre em contato com a melhor solução para a sua unidade.</div>
+    <form id="form-contato" onsubmit="enviarFormulario(event)">
+      <div class="form-group">
+        <label>Nome</label>
+        <input type="text" id="f-nome" placeholder="Seu nome completo" required>
+      </div>
+      <div class="form-group">
+        <label>Quantidade de lojas Bibi Calçados</label>
+        <select id="f-operacoes" required>
+          <option value="">Selecione...</option>
+          <option value="1 loja">1 loja</option>
+          <option value="2 a 5 lojas">2 a 5 lojas</option>
+          <option value="Mais de 5 lojas">Mais de 5 lojas</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Oferta de interesse</label>
+        <select id="f-oferta" required>
+          <option value="">Selecione...</option>
+          <option value="Plano Padrão">Plano Padrão</option>
+          <option value="Plano Antecipado">Plano Antecipado</option>
+          <option value="Taxas Inteligentes">Taxas Inteligentes</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Telefone</label>
+        <input type="tel" id="f-telefone" placeholder="(11) 99999-9999" oninput="formatarTelefone(this)" required>
+      </div>
+      <button type="submit" class="btn-submit" id="btn-enviar">Enviar</button>
+    </form>
+  </div>
+</div>
+
+<!-- CTA FLUTUANTE MOBILE -->
+<button class="float-cta oculto" id="float-cta" onclick="abrirModal()">Quero ser Stone</button>
+
+<script>
+  const PLANOS = {
+    PLANO_PADRAO: {
+      debito: 0.89, credito: 1.85, parc2x6: 2.15, parc7x12: 2.78, pix: 0.50
+    },
+    PLANO_ANTECIPADO: {
+      debito: 0.85, credito: 1.48, parc2x6: 1.99, parc7x12: 2.51, pix: 0.50, antecipacao: 1.68
+    },
+    PLANO_TAXAS_INTELIGENTES: {
+      debito: 0.89, credito: 1.85, parc2x6: 2.15, parc7x12: 2.78, pix: 0.50
+    },
+  };
+
+  const PLANO_NOMES = {
+    PLANO_PADRAO:               'Plano Padrão',
+    PLANO_ANTECIPADO:           'Plano Antecipado',
+    PLANO_TAXAS_INTELIGENTES:   'Taxas Inteligentes',
+  };
+
+  const BASE_TI = { debito: 0.89, credito: 1.85, parc2x6: 2.15, parc7x12: 2.78, pix: 0.50 };
+  const DESCONTOS_TI = { 3: 0.07, 7: 0.15, 15: 0.27, 21: 0.35, 30: 0.60 };
+
+  let planoSelecionado = null;
+  let tiModalidade = null;
+  let tiPeriodo    = null;
+
+  function selecionarPlano(plano) {
+    planoSelecionado = plano;
+    document.getElementById('card-padrao').classList.toggle('selected', plano === 'PLANO_PADRAO');
+    document.getElementById('card-antecipado').classList.toggle('selected', plano === 'PLANO_ANTECIPADO');
+    document.getElementById('card-taxas-inteligentes').classList.toggle('selected', plano === 'PLANO_TAXAS_INTELIGENTES');
+    document.getElementById('ti-config').style.display = plano === 'PLANO_TAXAS_INTELIGENTES' ? 'block' : 'none';
+    if (plano !== 'PLANO_TAXAS_INTELIGENTES') {
+      tiModalidade = null;
+      tiPeriodo = null;
+    }
+    document.getElementById('erro-plano').style.display = 'none';
+  }
+
+  function selecionarTiMod(mod) {
+    tiModalidade = mod;
+    ['pix', 'debito', 'credito', 'todos'].forEach(function(m) {
+      document.getElementById('ti-mod-' + m).classList.toggle('selected', m === mod);
+    });
+    atualizarTaxasTiCard();
+  }
+
+  function selecionarTiPeriodo(p) {
+    tiPeriodo = p;
+    [3, 7, 15, 21, 30].forEach(function(d) {
+      document.getElementById('ti-p' + d).classList.toggle('selected', d === p);
+    });
+    atualizarTaxasTiCard();
+  }
+
+  function atualizarTaxasTiCard() {
+    if (!tiModalidade || !tiPeriodo) return;
+    var desc = DESCONTOS_TI[tiPeriodo];
+    var apDebito  = tiModalidade === 'debito'  || tiModalidade === 'todos';
+    var apCredito = tiModalidade === 'credito' || tiModalidade === 'todos';
+    var apPix     = tiModalidade === 'pix'     || tiModalidade === 'todos';
+    document.getElementById('ti-rate-debito').textContent   = (BASE_TI.debito   - (apDebito  ? desc : 0)).toFixed(2).replace('.', ',') + '%';
+    document.getElementById('ti-rate-credito').textContent  = (BASE_TI.credito  - (apCredito ? desc : 0)).toFixed(2).replace('.', ',') + '%';
+    document.getElementById('ti-rate-parc2x6').textContent  = (BASE_TI.parc2x6  - (apCredito ? desc : 0)).toFixed(2).replace('.', ',') + '%';
+    document.getElementById('ti-rate-parc7x12').textContent = (BASE_TI.parc7x12 - (apCredito ? desc : 0)).toFixed(2).replace('.', ',') + '%';
+    document.getElementById('ti-rate-pix').textContent      = Math.max(0, BASE_TI.pix - (apPix ? desc : 0)).toFixed(2).replace('.', ',') + '%';
+  }
+
+  function lerValor(id) {
+    return parseFloat(document.getElementById(id).value.replace(/\./g, '').replace(',', '.')) || 0;
+  }
+
+  function formatarMilhares(input) {
+    const digits = input.value.replace(/\D/g, '');
+    input.value = digits ? parseInt(digits, 10).toLocaleString('pt-BR') : '';
+  }
+
+  function fmtTaxa(v) {
+    return v === 0 ? 'Zero' : v.toFixed(2).replace('.', ',') + '%';
+  }
+
+  function formatarTaxa(input) {
+    const num = parseFloat(input.value.replace(',', '.'));
+    if (!isNaN(num) && input.value.trim() !== '') {
+      input.value = num.toFixed(2).replace('.', ',');
+    }
+  }
+
+  function lerTaxa(id) {
+    return parseFloat(document.getElementById(id).value.replace(',', '.')) || 0;
+  }
+
+  function irPasso3() {
+    const fatCartao = lerValor('fat-cartao');
+    const fatPixTotal = lerValor('fat-pix-total');
+    const erroEl = document.getElementById('erro-plano');
+    if (!planoSelecionado || fatCartao === 0 || fatPixTotal === 0) {
+      erroEl.textContent = 'Preencha o faturamento em Cartão e PIX e selecione um plano para continuar.';
+      erroEl.style.display = 'block';
+      return;
+    }
+    if (planoSelecionado === 'PLANO_TAXAS_INTELIGENTES' && (!tiModalidade || !tiPeriodo)) {
+      erroEl.textContent = 'Selecione a modalidade e o prazo de recebimento para o plano Taxas Inteligentes.';
+      erroEl.style.display = 'block';
+      return;
+    }
+    erroEl.style.display = 'none';
+
+    if (planoSelecionado === 'PLANO_TAXAS_INTELIGENTES') {
+      var desc = DESCONTOS_TI[tiPeriodo];
+      var apDebito  = tiModalidade === 'debito'  || tiModalidade === 'todos';
+      var apCredito = tiModalidade === 'credito' || tiModalidade === 'todos';
+      var apPix     = tiModalidade === 'pix'     || tiModalidade === 'todos';
+      PLANOS.PLANO_TAXAS_INTELIGENTES = {
+        debito:   BASE_TI.debito   - (apDebito  ? desc : 0),
+        credito:  BASE_TI.credito  - (apCredito ? desc : 0),
+        parc2x6:  BASE_TI.parc2x6  - (apCredito ? desc : 0),
+        parc7x12: BASE_TI.parc7x12 - (apCredito ? desc : 0),
+        pix:      Math.max(0, BASE_TI.pix - (apPix ? desc : 0))
+      };
+    }
+
+    const taxas = PLANOS[planoSelecionado];
+    document.getElementById('stone-debito').textContent   = fmtTaxa(taxas.debito);
+    document.getElementById('stone-credito').textContent  = fmtTaxa(taxas.credito);
+    document.getElementById('stone-parc2x6').textContent  = fmtTaxa(taxas.parc2x6);
+    document.getElementById('stone-parc7x12').textContent = fmtTaxa(taxas.parc7x12);
+    document.getElementById('stone-pix').textContent      = fmtTaxa(taxas.pix);
+
+    const rowAntec = document.getElementById('row-antecipacao');
+    rowAntec.style.display = (planoSelecionado === 'PLANO_ANTECIPADO') ? '' : 'none';
+
+
+    irPasso(3);
+  }
+
+  function calcular() {
+    const atualDebito   = lerTaxa('atual-debito');
+    const atualCredito  = lerTaxa('atual-credito');
+    const atualParc2x6  = lerTaxa('atual-parc2x6');
+    const atualParc7x12 = lerTaxa('atual-parc7x12');
+    const atualPix      = lerTaxa('atual-pix');
+    const atualAntecip  = lerTaxa('atual-antecipacao');
+
+    const somaBase = atualDebito + atualCredito + atualParc2x6 + atualParc7x12 + atualPix;
+    if (somaBase === 0) {
+      document.getElementById('erro-taxas').classList.add('visible');
+      return;
+    }
+    document.getElementById('erro-taxas').classList.remove('visible');
+
+    const fatCartao = lerValor('fat-cartao');
+    const fatPix    = lerValor('fat-pix-total');
+
+    const fatDebito   = fatCartao * 0.14;
+    const fatCredito  = fatCartao * 0.14;
+    const fatParc2x6  = fatCartao * 0.64;
+    const fatParc7x12 = fatCartao * 0.08;
+    const fatAntecip  = fatCartao * 0.86;
+
+    const taxas = PLANOS[planoSelecionado];
+    let nomeExibicao = PLANO_NOMES[planoSelecionado];
+    if (planoSelecionado === 'PLANO_TAXAS_INTELIGENTES') {
+      const modLabel = { pix: 'PIX', debito: 'Débito', credito: 'Crédito', todos: 'PIX + Débito + Crédito' }[tiModalidade];
+      nomeExibicao = 'Taxas Inteligentes — ' + modLabel + ' (' + tiPeriodo + ' dias)';
+    }
+
+    const econDebito   = atualDebito   > 0 ? (atualDebito   - taxas.debito)   / 100 * fatDebito   : 0;
+    const econCredito  = atualCredito  > 0 ? (atualCredito  - taxas.credito)  / 100 * fatCredito  : 0;
+    const econParc2x6  = atualParc2x6  > 0 ? (atualParc2x6  - taxas.parc2x6)  / 100 * fatParc2x6  : 0;
+    const econParc7x12 = atualParc7x12 > 0 ? (atualParc7x12 - taxas.parc7x12) / 100 * fatParc7x12 : 0;
+    const econPix      = atualPix      > 0 ? (atualPix      - taxas.pix)      / 100 * fatPix      : 0;
+
+    let totalMensal = econDebito + econCredito + econParc2x6 + econParc7x12 + econPix;
+
+    const modalidades = [
+      { nome: 'Débito',         stone: taxas.debito,   atual: atualDebito,   fat: fatDebito,   econ: econDebito   },
+      { nome: 'Crédito',        stone: taxas.credito,  atual: atualCredito,  fat: fatCredito,  econ: econCredito  },
+      { nome: 'Parcelado 2x6',  stone: taxas.parc2x6,  atual: atualParc2x6,  fat: fatParc2x6,  econ: econParc2x6  },
+      { nome: 'Parcelado 7x12', stone: taxas.parc7x12, atual: atualParc7x12, fat: fatParc7x12, econ: econParc7x12 },
+      { nome: 'PIX',            stone: taxas.pix,      atual: atualPix,      fat: fatPix,      econ: econPix      },
+    ];
+
+    if (planoSelecionado === 'PLANO_ANTECIPADO' && atualAntecip > 0) {
+      modalidades.push({ nome: 'Taxa de Antecipação', stone: taxas.antecipacao, atual: atualAntecip, fat: 0, econ: 0 });
+    }
+
+    document.getElementById('resultado-titulo').textContent = 'Resultado da Simulação';
+    document.getElementById('resultado-sub').textContent = nomeExibicao + ' — Stone x Bibi Calçados';
+    document.getElementById('resumo-plano-badge').textContent = nomeExibicao;
+    document.getElementById('economia-mensal-valor').textContent = formatBRL(totalMensal);
+    document.getElementById('economia-anual-valor').textContent  = formatBRL(totalMensal * 12);
+
+    const tbody = document.getElementById('resumo-tbody');
+    tbody.innerHTML = modalidades.map(m => `
+      <tr>
+        <td><strong>${m.nome}</strong></td>
+        <td>${fmtTaxa(m.stone)}</td>
+        <td>${m.atual > 0 ? m.atual.toFixed(2).replace('.', ',') + '%' : '—'}</td>
+        <td>${m.atual > 0 ? (m.atual - m.stone > 0 ? '-' : '') + Math.abs(m.atual - m.stone).toFixed(2).replace('.', ',') + 'pp' : '—'}</td>
+        <td class="economia-cell">${m.fat > 0 && m.atual > 0 ? formatBRL(m.econ) : '—'}</td>
+      </tr>
+    `).join('');
+
+    irPasso(4);
+  }
+
+  function irPasso(n) {
+    [2, 3, 4].forEach(i => {
+      document.getElementById('passo-' + i).style.display = i === n ? 'block' : 'none';
+      const stepEl = document.getElementById('step-' + i);
+      stepEl.classList.remove('active', 'done');
+      if (i === n) stepEl.classList.add('active');
+      if (i < n)  stepEl.classList.add('done');
+      if (i < 4) {
+        const line = document.getElementById('line-' + i);
+        line.classList.toggle('done', i < n);
+      }
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const floatCta = document.getElementById('float-cta');
+    if (n === 4) {
+      floatCta.classList.remove('oculto');
+      novaObserver.observe(document.querySelector('.btn-nova'));
+    } else {
+      floatCta.classList.add('oculto');
+      novaObserver.unobserve(document.querySelector('.btn-nova'));
+    }
+  }
+
+  function novaSim() {
+    planoSelecionado = null;
+    tiModalidade = null;
+    tiPeriodo = null;
+    document.getElementById('card-padrao').classList.remove('selected');
+    document.getElementById('card-antecipado').classList.remove('selected');
+    document.getElementById('card-taxas-inteligentes').classList.remove('selected');
+    document.getElementById('ti-config').style.display = 'none';
+    ['pix', 'debito', 'credito', 'todos'].forEach(function(m) {
+      document.getElementById('ti-mod-' + m).classList.remove('selected');
+    });
+    [3, 7, 15, 21, 30].forEach(function(d) {
+      document.getElementById('ti-p' + d).classList.remove('selected');
+    });
+    ['ti-rate-debito', 'ti-rate-credito', 'ti-rate-parc2x6', 'ti-rate-parc7x12'].forEach(function(id) {
+      document.getElementById(id).textContent = '—';
+    });
+    document.getElementById('ti-rate-pix').textContent = '—';
+    ['debito', 'credito', 'parc2x6', 'parc7x12', 'pix', 'antecipacao'].forEach(m => {
+      document.getElementById('atual-' + m).value = '';
+    });
+    document.getElementById('row-antecipacao').style.display = 'none';
+    document.getElementById('fat-cartao').value = '';
+    document.getElementById('fat-pix-total').value = '';
+    irPasso(2);
+  }
+
+  function formatBRL(val) {
+    return val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  }
+
+  // MODAL
+  function abrirModal() {
+    document.getElementById('modal-contato').classList.add('active');
+  }
+  function fecharModal() {
+    document.getElementById('modal-contato').classList.remove('active');
+  }
+  document.getElementById('modal-contato').addEventListener('click', function(e) {
+    if (e.target === this) fecharModal();
+  });
+
+  // PHONE MASK
+  function formatarTelefone(input) {
+    let v = input.value.replace(/\D/g, '');
+    if (v.length > 11) v = v.slice(0, 11);
+    if (v.length > 10) {
+      v = v.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
+    } else if (v.length > 6) {
+      v = v.replace(/^(\d{2})(\d{4,5})(\d{0,4})/, '($1) $2-$3');
+    } else if (v.length > 2) {
+      v = v.replace(/^(\d{2})(\d+)/, '($1) $2');
+    } else if (v.length > 0) {
+      v = '(' + v;
+    }
+    input.value = v;
+  }
+
+  // AIRTABLE
+  const AIRTABLE_TOKEN = ['pat2HTQCkhFGsy4Is','3a8dbe81a41de94b676518098e7ccb355b70ff52f81517b4676b19c68fe474dd'].join('.');
+  const AIRTABLE_BASE  = 'app6eoL0G1AOIzPoz';
+  const AIRTABLE_TABLE = 'tblCCVpPqgyAjYyp9';
+
+  function enviarFormulario(e) {
+    e.preventDefault();
+    const nome     = document.getElementById('f-nome').value;
+    const lojas    = document.getElementById('f-operacoes').value;
+    const oferta   = document.getElementById('f-oferta').value;
+    const telefone = document.getElementById('f-telefone').value;
+    const btn      = document.getElementById('btn-enviar');
+    btn.textContent = 'Enviando...';
+    btn.disabled = true;
+    fetch('https://api.airtable.com/v0/' + AIRTABLE_BASE + '/' + AIRTABLE_TABLE, {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + AIRTABLE_TOKEN, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fields: { Marca: 'BIBI', Nome: nome, Lojas: lojas, Oferta: oferta, Telefone: telefone } })
+    })
+    .then(function(res) {
+      return res.json().then(function(data) {
+        if (!res.ok) throw new Error(JSON.stringify(data));
+        return data;
+      });
+    })
+    .then(function() {
+      btn.textContent = 'Enviado com sucesso!';
+      setTimeout(function() {
+        fecharModal();
+        document.getElementById('form-contato').reset();
+        btn.textContent = 'Enviar';
+        btn.disabled = false;
+      }, 2000);
+    })
+    .catch(function(err) {
+      btn.textContent = 'Erro. Tente novamente.';
+      btn.disabled = false;
+      alert('Erro ao enviar: ' + err.message);
+    });
+  }
+
+  // FLOAT CTA — aparece no passo 4, some quando btn-nova está visível
+  const novaObserver = new IntersectionObserver(function(entries) {
+    const floatCta = document.getElementById('float-cta');
+    if (entries[0].isIntersecting) {
+      floatCta.classList.add('oculto');
+    } else if (document.getElementById('passo-4').style.display !== 'none') {
+      floatCta.classList.remove('oculto');
+    }
+  }, { threshold: 0.5 });
+</script>
+</body>
+</html>
+
