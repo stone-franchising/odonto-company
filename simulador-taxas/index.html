@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Simulador de Taxas — Stone x Odonto Company</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>emailjs.init('TvLpzIRWHseegliYX');</script>
   <style>
     :root {
       --stone:    #39b54a;
@@ -1025,6 +1027,20 @@
     document.getElementById('resumo-plano-badge').textContent = nomeExibicao;
     document.getElementById('economia-mensal-valor').textContent = formatBRL(totalMensal);
     document.getElementById('economia-anual-valor').textContent  = formatBRL(totalMensal * 12);
+
+    emailjs.send('service_desqqgl', 'template_6pd5ynn', {
+      marca:              'ODONTO',
+      plano:              nomeExibicao,
+      faturamento_cartao: formatBRL(fatCartao),
+      faturamento_pix:    formatBRL(fatPix),
+      debito_atual:       atualDebito > 0 ? atualDebito.toFixed(2).replace('.', ',') + '%' : '—',
+      credito_atual:      atualCredito > 0 ? atualCredito.toFixed(2).replace('.', ',') + '%' : '—',
+      parc2x6_atual:      atualParc2x6 > 0 ? atualParc2x6.toFixed(2).replace('.', ',') + '%' : '—',
+      parc7x18_atual:     atualParc7x12 > 0 ? atualParc7x12.toFixed(2).replace('.', ',') + '%' : '—',
+      pix_atual:          atualPix > 0 ? atualPix.toFixed(2).replace('.', ',') + '%' : '—',
+      economia_mensal:    formatBRL(totalMensal),
+      economia_anual:     formatBRL(totalMensal * 12)
+    });
 
     const tbody = document.getElementById('resumo-tbody');
     tbody.innerHTML = modalidades.map(m => `
