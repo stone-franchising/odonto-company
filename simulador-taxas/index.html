@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Simulador de Taxas — Stone x Bibi Calçados</title>
+  <title>Simulador de Taxas — Stone x Odonto Company</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --stone:    #EC660D;
-      --stone-dk: #c04e00;
-      --brand:    #1a1a1a;
-      --soft:     #fff7f2;
-      --softbdr:  #f5c9a0;
+      --stone:    #39b54a;
+      --stone-dk: #2e7d32;
+      --brand:    #1b5e20;
+      --soft:     #f0faf0;
+      --softbdr:  #a5d6a7;
       --text:     #1a1a1a;
-      --sub:      #3d200a;
-      --muted:    #a07850;
-      --border:   #f5c9a0;
+      --sub:      #1a3a1a;
+      --muted:    #557a55;
+      --border:   #a5d6a7;
       --white:    #ffffff;
       --red:      #ef4444;
       --radius:   10px;
@@ -110,7 +110,7 @@
       background: var(--stone);
       border-color: var(--stone);
       color: var(--white);
-      box-shadow: 0 0 0 4px rgba(236,102,13,0.15);
+      box-shadow: 0 0 0 4px rgba(57,181,74,0.15);
     }
     .step.done .step-dot {
       background: var(--stone-dk);
@@ -138,6 +138,8 @@
       transition: background 0.25s;
     }
     .step-line.done { background: linear-gradient(to right, var(--stone-dk), var(--stone)); }
+    .odonto-logo-box { background: #1b5e20; border-radius: 10px; padding: 6px 12px; display: inline-flex; align-items: center; justify-content: center; }
+    .odonto-logo-box img { height: 22px; width: auto; }
 
     /* CARD */
     .card {
@@ -697,7 +699,7 @@
   <!-- PASSO 3: TAXAS ATUAIS -->
   <div class="card" id="passo-3" style="display:none">
     <div class="card-title">Informe suas condições atuais</div>
-    <div class="card-sub">Digite suas atuais taxas por modalidade. O share é calculado de acordo com a média dos últimos 7 meses dos CNPJ da Bibi Calçados.</div>
+    <div class="card-sub">Digite suas atuais taxas por modalidade. O share é calculado de acordo com a média dos últimos 7 meses dos CNPJ da rede Odonto Company.</div>
     <table class="taxas-table">
       <thead>
         <tr>
@@ -802,12 +804,12 @@
         <input type="text" id="f-nome" placeholder="Seu nome completo" required>
       </div>
       <div class="form-group">
-        <label>Quantidade de lojas Bibi Calçados</label>
+        <label>Quantidade de clÃ­nicas Odonto Company</label>
         <select id="f-operacoes" required>
           <option value="">Selecione...</option>
-          <option value="1 loja">1 loja</option>
-          <option value="2 a 5 lojas">2 a 5 lojas</option>
-          <option value="Mais de 5 lojas">Mais de 5 lojas</option>
+          <option value="1 clÃ­nica">1 clÃ­nica</option>
+          <option value="2 a 5 clÃ­nicas">2 a 5 clÃ­nicas</option>
+          <option value="Mais de 5 clÃ­nicas">Mais de 5 clÃ­nicas</option>
         </select>
       </div>
       <div class="form-group">
@@ -1019,7 +1021,7 @@
     }
 
     document.getElementById('resultado-titulo').textContent = 'Resultado da Simulação';
-    document.getElementById('resultado-sub').textContent = nomeExibicao + ' — Stone x Bibi Calçados';
+    document.getElementById('resultado-sub').textContent = nomeExibicao + ' — Stone x Odonto Company';
     document.getElementById('resumo-plano-badge').textContent = nomeExibicao;
     document.getElementById('economia-mensal-valor').textContent = formatBRL(totalMensal);
     document.getElementById('economia-anual-valor').textContent  = formatBRL(totalMensal * 12);
@@ -1136,7 +1138,7 @@
     fetch('https://api.airtable.com/v0/' + AIRTABLE_BASE + '/' + AIRTABLE_TABLE, {
       method: 'POST',
       headers: { 'Authorization': 'Bearer ' + AIRTABLE_TOKEN, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ fields: { Marca: 'BIBI', Nome: nome, Lojas: lojas, Oferta: oferta, Telefone: telefone } })
+      body: JSON.stringify({ fields: { Marca: 'ODONTO', Nome: nome, Lojas: lojas, Oferta: oferta, Telefone: telefone } })
     })
     .then(function(res) {
       return res.json().then(function(data) {
