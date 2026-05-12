@@ -676,12 +676,11 @@
       </div>
     </div>
     <div id="ti-config" style="display:none" class="ti-config">
-      <div class="ti-config-label">Aplicar desconto em</div>
+      <div class="ti-config-label">Aplicar desconto em (selecione um ou mais)</div>
       <div class="ti-btns">
-        <button type="button" class="ti-btn" id="ti-mod-pix"    onclick="selecionarTiMod('pix')">PIX</button>
-        <button type="button" class="ti-btn" id="ti-mod-debito" onclick="selecionarTiMod('debito')">Débito</button>
-        <button type="button" class="ti-btn" id="ti-mod-credito" onclick="selecionarTiMod('credito')">Crédito</button>
-        <button type="button" class="ti-btn" id="ti-mod-todos"  onclick="selecionarTiMod('todos')">PIX + Débito + Crédito</button>
+        <button type="button" class="ti-btn" id="ti-mod-pix"    onclick="toggleTiMod('pix')">PIX</button>
+        <button type="button" class="ti-btn" id="ti-mod-debito" onclick="toggleTiMod('debito')">Débito</button>
+        <button type="button" class="ti-btn" id="ti-mod-credito" onclick="toggleTiMod('credito')">Crédito</button>
       </div>
       <div class="ti-config-label">Prazo adicional de recebimento</div>
       <div class="ti-btns">
@@ -858,8 +857,8 @@
   const DESCONTOS_TI = { 3: 0.07, 7: 0.15, 15: 0.27, 21: 0.35, 30: 0.60 };
 
   let planoSelecionado = null;
-  let tiModalidade = null;
-  let tiPeriodo    = null;
+  let tiModalidades = { pix: false, debito: false, credito: false };
+  let tiPeriodo     = null;
 
   function selecionarPlano(plano) {
     planoSelecionado = plano;
@@ -868,17 +867,15 @@
     document.getElementById('card-taxas-inteligentes').classList.toggle('selected', plano === 'PLANO_TAXAS_INTELIGENTES');
     document.getElementById('ti-config').style.display = plano === 'PLANO_TAXAS_INTELIGENTES' ? 'block' : 'none';
     if (plano !== 'PLANO_TAXAS_INTELIGENTES') {
-      tiModalidade = null;
+      tiModalidades = { pix: false, debito: false, credito: false };
       tiPeriodo = null;
     }
     document.getElementById('erro-plano').style.display = 'none';
   }
 
-  function selecionarTiMod(mod) {
-    tiModalidade = mod;
-    ['pix', 'debito', 'credito', 'todos'].forEach(function(m) {
-      document.getElementById('ti-mod-' + m).classList.toggle('selected', m === mod);
-    });
+  function toggleTiMod(mod) {
+    tiModalidades[mod] = !tiModalidades[mod];
+    document.getElementById('ti-mod-' + mod).classList.toggle('selected', tiModalidades[mod]);
     atualizarTaxasTiCard();
   }
 
@@ -890,17 +887,18 @@
     atualizarTaxasTiCard();
   }
 
+  function algumaMod() {
+    return tiModalidades.pix || tiModalidades.debito || tiModalidades.credito;
+  }
+
   function atualizarTaxasTiCard() {
-    if (!tiModalidade || !tiPeriodo) return;
+    if (!algumaMod() || !tiPeriodo) return;
     var desc = DESCONTOS_TI[tiPeriodo];
-    var apDebito  = tiModalidade === 'debito'  || tiModalidade === 'todos';
-    var apCredito = tiModalidade === 'credito' || tiModalidade === 'todos';
-    var apPix     = tiModalidade === 'pix'     || tiModalidade === 'todos';
-    document.getElementById('ti-rate-debito').textContent   = (BASE_TI.debito   - (apDebito  ? desc : 0)).toFixed(2).replace('.', ',') + '%';
-    document.getElementById('ti-rate-credito').textContent  = (BASE_TI.credito  - (apCredito ? desc : 0)).toFixed(2).replace('.', ',') + '%';
-    document.getElementById('ti-rate-parc2x6').textContent  = (BASE_TI.parc2x6  - (apCredito ? desc : 0)).toFixed(2).replace('.', ',') + '%';
-    document.getElementById('ti-rate-parc7x12').textContent = (BASE_TI.parc7x12 - (apCredito ? desc : 0)).toFixed(2).replace('.', ',') + '%';
-    document.getElementById('ti-rate-pix').textContent      = Math.max(0, BASE_TI.pix - (apPix ? desc : 0)).toFixed(2).replace('.', ',') + '%';
+    document.getElementById('ti-rate-debito').textContent   = (BASE_TI.debito   - (tiModalidades.debito  ? desc : 0)).toFixed(2).replace('.', ',') + '%';
+    document.getElementById('ti-rate-credito').textContent  = (BASE_TI.credito  - (tiModalidades.credito ? desc : 0)).toFixed(2).replace('.', ',') + '%';
+    document.getElementById('ti-rate-parc2x6').textContent  = (BASE_TI.parc2x6  - (tiModalidades.credito ? desc : 0)).toFixed(2).replace('.', ',') + '%';
+    document.getElementById('ti-rate-parc7x12').textContent = (BASE_TI.parc7x12 - (tiModalidades.credito ? desc : 0)).toFixed(2).replace('.', ',') + '%';
+    document.getElementById('ti-rate-pix').textContent      = Math.max(0, BASE_TI.pix - (tiModalidades.pix ? desc : 0)).toFixed(2).replace('.', ',') + '%';
   }
 
   function lerValor(id) {
@@ -936,8 +934,8 @@
       erroEl.style.display = 'block';
       return;
     }
-    if (planoSelecionado === 'PLANO_TAXAS_INTELIGENTES' && (!tiModalidade || !tiPeriodo)) {
-      erroEl.textContent = 'Selecione a modalidade e o prazo de recebimento para o plano Taxas Inteligentes.';
+    if (planoSelecionado === 'PLANO_TAXAS_INTELIGENTES' && (!algumaMod() || !tiPeriodo)) {
+      erroEl.textContent = 'Selecione ao menos uma modalidade e o prazo de recebimento para o plano Taxas Inteligentes.';
       erroEl.style.display = 'block';
       return;
     }
@@ -945,15 +943,12 @@
 
     if (planoSelecionado === 'PLANO_TAXAS_INTELIGENTES') {
       var desc = DESCONTOS_TI[tiPeriodo];
-      var apDebito  = tiModalidade === 'debito'  || tiModalidade === 'todos';
-      var apCredito = tiModalidade === 'credito' || tiModalidade === 'todos';
-      var apPix     = tiModalidade === 'pix'     || tiModalidade === 'todos';
       PLANOS.PLANO_TAXAS_INTELIGENTES = {
-        debito:   BASE_TI.debito   - (apDebito  ? desc : 0),
-        credito:  BASE_TI.credito  - (apCredito ? desc : 0),
-        parc2x6:  BASE_TI.parc2x6  - (apCredito ? desc : 0),
-        parc7x12: BASE_TI.parc7x12 - (apCredito ? desc : 0),
-        pix:      Math.max(0, BASE_TI.pix - (apPix ? desc : 0))
+        debito:   BASE_TI.debito   - (tiModalidades.debito  ? desc : 0),
+        credito:  BASE_TI.credito  - (tiModalidades.credito ? desc : 0),
+        parc2x6:  BASE_TI.parc2x6  - (tiModalidades.credito ? desc : 0),
+        parc7x12: BASE_TI.parc7x12 - (tiModalidades.credito ? desc : 0),
+        pix:      Math.max(0, BASE_TI.pix - (tiModalidades.pix ? desc : 0))
       };
     }
 
@@ -1067,13 +1062,13 @@
 
   function novaSim() {
     planoSelecionado = null;
-    tiModalidade = null;
+    tiModalidades = { pix: false, debito: false, credito: false };
     tiPeriodo = null;
     document.getElementById('card-padrao').classList.remove('selected');
     document.getElementById('card-antecipado').classList.remove('selected');
     document.getElementById('card-taxas-inteligentes').classList.remove('selected');
     document.getElementById('ti-config').style.display = 'none';
-    ['pix', 'debito', 'credito', 'todos'].forEach(function(m) {
+    ['pix', 'debito', 'credito'].forEach(function(m) {
       document.getElementById('ti-mod-' + m).classList.remove('selected');
     });
     [3, 7, 15, 21, 30].forEach(function(d) {
