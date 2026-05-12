@@ -639,11 +639,11 @@
         </div>
         <div class="plano-card-name">Plano Padrão</div>
         <div class="plano-card-taxas">
-          <div class="plano-taxa-row"><span>Débito</span><span>0,89%</span></div>
-          <div class="plano-taxa-row"><span>Crédito</span><span>1,85%</span></div>
-          <div class="plano-taxa-row"><span>Crédito 2x6</span><span>2,15%</span></div>
-          <div class="plano-taxa-row"><span>Crédito 7x12</span><span>2,78%</span></div>
-          <div class="plano-taxa-row"><span>PIX</span><span>0,50%</span></div>
+          <div class="plano-taxa-row"><span>Débito</span><span>0,83%</span></div>
+          <div class="plano-taxa-row"><span>Crédito</span><span>1,89%</span></div>
+          <div class="plano-taxa-row"><span>Crédito 2x6</span><span>2,23%</span></div>
+          <div class="plano-taxa-row"><span>Crédito 7x18</span><span>2,52%</span></div>
+          <div class="plano-taxa-row"><span>PIX</span><span>0,55%</span></div>
         </div>
       </div>
       <div class="plano-card" id="card-antecipado" onclick="selecionarPlano('PLANO_ANTECIPADO')">
@@ -652,12 +652,12 @@
         </div>
         <div class="plano-card-name">Plano Antecipado</div>
         <div class="plano-card-taxas">
-          <div class="plano-taxa-row"><span>Débito</span><span>0,85%</span></div>
-          <div class="plano-taxa-row"><span>Crédito</span><span>1,48%</span></div>
-          <div class="plano-taxa-row"><span>Crédito 2x6</span><span>1,99%</span></div>
-          <div class="plano-taxa-row"><span>Crédito 7x12</span><span>2,51%</span></div>
-          <div class="plano-taxa-row"><span>PIX</span><span>0,50%</span></div>
-          <div class="plano-taxa-row"><span>Antecipação Automática</span><span>1,68% a.m</span></div>
+          <div class="plano-taxa-row"><span>Débito</span><span>0,75%</span></div>
+          <div class="plano-taxa-row"><span>Crédito</span><span>1,65%</span></div>
+          <div class="plano-taxa-row"><span>Crédito 2x6</span><span>1,85%</span></div>
+          <div class="plano-taxa-row"><span>Crédito 7x18</span><span>1,99%</span></div>
+          <div class="plano-taxa-row"><span>PIX</span><span>0,55%</span></div>
+          <div class="plano-taxa-row"><span>Antecipação Automática</span><span>1,40% a.m</span></div>
         </div>
       </div>
       <div class="plano-card" id="card-taxas-inteligentes" onclick="selecionarPlano('PLANO_TAXAS_INTELIGENTES')">
@@ -670,7 +670,7 @@
           <div class="plano-taxa-row"><span>Débito</span><span id="ti-rate-debito">—</span></div>
           <div class="plano-taxa-row"><span>Crédito</span><span id="ti-rate-credito">—</span></div>
           <div class="plano-taxa-row"><span>Crédito 2x6</span><span id="ti-rate-parc2x6">—</span></div>
-          <div class="plano-taxa-row"><span>Crédito 7x12</span><span id="ti-rate-parc7x12">—</span></div>
+          <div class="plano-taxa-row"><span>Crédito 7x18</span><span id="ti-rate-parc7x12">—</span></div>
           <div class="plano-taxa-row"><span>PIX</span><span id="ti-rate-pix">—</span></div>
         </div>
       </div>
@@ -731,7 +731,7 @@
           <td><div class="taxa-stone-display">64%</div></td>
         </tr>
         <tr id="row-parc7x12">
-          <td><div class="modalidade-label">Parcelado 7x12</div></td>
+          <td><div class="modalidade-label">Parcelado 7x18</div></td>
           <td><div class="taxa-stone-display" id="stone-parc7x12">—</div></td>
           <td><div class="taxa-input-wrap"><input type="text" id="atual-parc7x12" placeholder="0,00" inputmode="decimal" onblur="formatarTaxa(this)"></div></td>
           <td><div class="taxa-stone-display">8%</div></td>
@@ -744,7 +744,7 @@
         </tr>
         <tr id="row-antecipacao" style="display:none">
           <td><div class="modalidade-label">Taxa de Antecipação</div></td>
-          <td><div class="taxa-stone-display" id="stone-antecipacao">1,68%</div></td>
+          <td><div class="taxa-stone-display" id="stone-antecipacao">1,40%</div></td>
           <td><div class="taxa-input-wrap"><input type="text" id="atual-antecipacao" placeholder="0,00" inputmode="decimal" onblur="formatarTaxa(this)"></div></td>
           <td><div class="taxa-stone-display">—</div></td>
         </tr>
@@ -838,13 +838,13 @@
 <script>
   const PLANOS = {
     PLANO_PADRAO: {
-      debito: 0.89, credito: 1.85, parc2x6: 2.15, parc7x12: 2.78, pix: 0.50
+      debito: 0.83, credito: 1.89, parc2x6: 2.23, parc7x12: 2.52, pix: 0.55
     },
     PLANO_ANTECIPADO: {
-      debito: 0.85, credito: 1.48, parc2x6: 1.99, parc7x12: 2.51, pix: 0.50, antecipacao: 1.68
+      debito: 0.75, credito: 1.65, parc2x6: 1.85, parc7x12: 1.99, pix: 0.55, antecipacao: 1.40
     },
     PLANO_TAXAS_INTELIGENTES: {
-      debito: 0.89, credito: 1.85, parc2x6: 2.15, parc7x12: 2.78, pix: 0.50
+      debito: 0.83, credito: 1.89, parc2x6: 2.23, parc7x12: 2.52, pix: 0.55
     },
   };
 
@@ -854,7 +854,7 @@
     PLANO_TAXAS_INTELIGENTES:   'Taxas Inteligentes',
   };
 
-  const BASE_TI = { debito: 0.89, credito: 1.85, parc2x6: 2.15, parc7x12: 2.78, pix: 0.50 };
+  const BASE_TI = { debito: 0.83, credito: 1.89, parc2x6: 2.23, parc7x12: 2.52, pix: 0.55 };
   const DESCONTOS_TI = { 3: 0.07, 7: 0.15, 15: 0.27, 21: 0.35, 30: 0.60 };
 
   let planoSelecionado = null;
@@ -1014,7 +1014,7 @@
       { nome: 'Débito',         stone: taxas.debito,   atual: atualDebito,   fat: fatDebito,   econ: econDebito   },
       { nome: 'Crédito',        stone: taxas.credito,  atual: atualCredito,  fat: fatCredito,  econ: econCredito  },
       { nome: 'Parcelado 2x6',  stone: taxas.parc2x6,  atual: atualParc2x6,  fat: fatParc2x6,  econ: econParc2x6  },
-      { nome: 'Parcelado 7x12', stone: taxas.parc7x12, atual: atualParc7x12, fat: fatParc7x12, econ: econParc7x12 },
+      { nome: 'Parcelado 7x18', stone: taxas.parc7x12, atual: atualParc7x12, fat: fatParc7x12, econ: econParc7x12 },
       { nome: 'PIX',            stone: taxas.pix,      atual: atualPix,      fat: fatPix,      econ: econPix      },
     ];
 
