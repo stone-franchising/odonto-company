@@ -993,8 +993,11 @@
     const taxas = PLANOS[planoSelecionado];
     let nomeExibicao = PLANO_NOMES[planoSelecionado];
     if (planoSelecionado === 'PLANO_TAXAS_INTELIGENTES') {
-      const modLabel = { pix: 'PIX', debito: 'Débito', credito: 'Crédito', todos: 'PIX + Débito + Crédito' }[tiModalidade];
-      nomeExibicao = 'Taxas Inteligentes — ' + modLabel + ' (' + tiPeriodo + ' dias)';
+      var partes = [];
+      if (tiModalidades.pix) partes.push('PIX');
+      if (tiModalidades.debito) partes.push('Débito');
+      if (tiModalidades.credito) partes.push('Crédito');
+      nomeExibicao = 'Taxas Inteligentes — ' + partes.join(' + ') + ' (' + tiPeriodo + ' dias)';
     }
 
     const econDebito   = atualDebito   > 0 ? (atualDebito   - taxas.debito)   / 100 * fatDebito   : 0;
